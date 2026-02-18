@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.grownited.entity.TaskEntity;
 
 @Repository
-public interface TaskRepository
-        extends JpaRepository<TaskEntity, Integer> {
-
+public interface TaskRepository extends JpaRepository<TaskEntity, Integer>{
+	
 }

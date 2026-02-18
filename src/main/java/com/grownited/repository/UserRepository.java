@@ -1,13 +1,14 @@
 package com.grownited.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.grownited.entity.UserEntity;
 
-
-//db query -> table?
-@Repository
-public interface UserRepository extends JpaRepository<UserEntity, Integer>{
-	 
+@Repository // has to use this annotation for every Repository
+public interface UserRepository extends JpaRepository<UserEntity, Integer> // has to extends JpaRepository for Repository 
+{ 
+	Optional<UserEntity> findByEmail(String email);
 }

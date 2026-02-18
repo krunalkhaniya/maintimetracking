@@ -9,7 +9,7 @@ import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "modules")
-public class ModuleEntity {
+public class NotificationEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer moduleId;

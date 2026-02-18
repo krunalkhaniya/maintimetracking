@@ -2,113 +2,131 @@ package com.grownited.entity;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity // create table
-@Table(name = "users") // this will assign table name => users
+@Entity // This will tell to hibernate that you have to create table for this
+@Table(name = "users") // this will change the name of the table to users
 public class UserEntity {
 
-	@Id // primary key
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
+	public enum Status {
+		ACTIVE, INACTIVE
+	}
+
+	public enum Role {
+		ADMIN, PROJECT_MANAGER, DEVELOPER
+	}
+
+	@Id // This will create primary key
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // this will give auto_increment to the userId to MySQL query
 	private Integer userId;
 	private String firstName;
 	private String lastName;
+	private Integer contactNumber;
 	private String email;
 	private String password;
-	private LocalDate createdAt;  
-	private String role; //admin , participant , judge
-	private String gender;
-	private Integer birthYear;
-	private String contactNum; 
-	private String profilePicURL;
-	private String otp;
-	private Boolean active;
-	
-	public LocalDate getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(LocalDate createdAt) {
-		this.createdAt = createdAt;
-	}
+	private String profilePicture;
+	private LocalDate createdAt;
+	@Enumerated(EnumType.STRING)
+	@Column(length = 50)
+	private Role role; // users : admin, project manager, developers
+	@Enumerated(EnumType.STRING)
+	@Column(length = 20)
+	private Status status; // status : Active / Inactive
+	private Integer otp;
+
 	public Integer getUserId() {
 		return userId;
 	}
+
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
+	public Integer getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(Integer contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
-	public String getGender() {
-		return gender;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	public Integer getBirthYear() {
-		return birthYear;
-	}
-	public void setBirthYear(Integer birthYear) {
-		this.birthYear = birthYear;
-	}
-	public String getContactNum() {
-		return contactNum;
-	}
-	public void setContactNum(String contactNum) {
-		this.contactNum = contactNum;
-	}
-	public String getProfilePicURL() {
-		return profilePicURL;
-	}
-	public void setProfilePicURL(String profilePicURL) {
-		this.profilePicURL = profilePicURL;
-	}
-	public String getOtp() {
-		return otp;
-	}
-	public void setOtp(String otp) {
-		this.otp = otp;
-	}
-	public Boolean getActive() {
-		return active;
-	}
-	public void setActive(Boolean active) {
-		this.active = active;
+
+	public String getProfilePicture() {
+		return profilePicture;
 	}
 
-	
-	
-	
-	
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
+	}
+
+	public LocalDate getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDate createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Integer getOtp() {
+		return otp;
+	}
+
+	public void setOtp(Integer otp) {
+		this.otp = otp;
+	}
+
 }

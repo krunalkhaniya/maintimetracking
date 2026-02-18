@@ -5,94 +5,52 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.grownited.entity.UserEntity;
+import com.grownited.repository.UserRepository;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.grownited.entity.UserDetailEntity;
-import com.grownited.entity.UserEntity;
-import com.grownited.repository.ModuleRepository;
-import com.grownited.repository.ProjectRepository;
-import com.grownited.repository.ProjectUserRepository;
-import com.grownited.repository.TaskRepository;
-import com.grownited.repository.TaskUserRepository;
-import com.grownited.repository.UserDetailRepository;
-import com.grownited.repository.UserRepository;
 
 @Controller
 public class SessionController {
-
+	
+	// @Autowired is used to implement Singleton Design Pattern
+	// this will assign same object to all the users and will not create new object for every new user submits their data
 	@Autowired
 	UserRepository userRepository;
-	ProjectRepository projectRepository;
-	UserDetailRepository userDetailRepository;
-	ModuleRepository moduleRepository; 
-	TaskRepository taskRepositiry;
-	TaskUserRepository taskUserRepository; 
-	ProjectUserRepository projectUserRepository; 
-	
-	
 	
 	@GetMapping("/signup")
-	public String opensignuppage() {
-		return "Signup";
+	public String openSignupPage() {
+		return "Authentication/Signup"; // Signup jsp file name
 	}
-@GetMapping("/login")
-public String openloginpage() {
-	return "Login";
-}
-
-@GetMapping("/forgotpassward")
-public String openforgotpasswardpage() {
-	return "login";
-}
-
-@GetMapping("/forgetpassword")
-public String openForgetPassword() {
-	return "ForgetPassword";
-}
-@GetMapping("/test")
-public String test() {
-    return "Test";
-}
-
-@PostMapping("/register")
-public String register(UserEntity userEntity, UserDetailEntity userdetailentity) {
-	System.out.println(userEntity.getFirstName());
-	System.out.println(userEntity.getLastName());
-	System.out.println(userEntity.getEmail());
-	System.out.println(userEntity.getPassword());
 	
-	System.out.println(userEntity.getGender());
+	@GetMapping("/login")
+	public String openLoginPage() {
+		return "Authentication/Login"; // Login jsp file name
+	}
+
+	@GetMapping("/forgotPassword")
+	public String openForgotPasswordPage() {
+		return "Authentication/ForgotPassword"; // Login jsp file name
+	}
+	
+	@PostMapping("/register") // this should be same as action value in the form
+	public String register(UserEntity userEntity) {
 		
-	System.out.println("Processor => " + Runtime.getRuntime().availableProcessors());
-	
-	userEntity.setRole("PARTICIPANT");
-	userEntity.setActive(true);
-	userEntity.setCreatedAt(LocalDate.now());
-	
-	
-	// users insert -> UserRepository
-	// new -> X
-  
-	userRepository.save(userEntity);
-	 
-	return "Login";
-}
-
-
-				
-
-	
-	@GetMapping("Users")
-	public String openUserjsp() 
-	{
-	
-	return "User";
-	
-	
+		System.out.println(userEntity.getFirstName());
+		System.out.println(userEntity.getLastName());
+		System.out.println(userEntity.getEmail());
+		System.out.println(userEntity.getPassword());
+		
+		// userEntity.setRole("DEVELOPER");
+		userEntity.setCreatedAt(LocalDate.now());
+		
+		// we create Repository for every Entity/Database to separate the logic for Database queries
+		// for every Entity/Database there has to be a Repository (interface) file
+		userRepository.save(userEntity); // this will insert the data into the table
+		
+		return "redirect:/login";
 	}
-	{
 	
-	
-}}
-
-
+}

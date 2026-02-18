@@ -1,30 +1,57 @@
 package com.grownited.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import com.grownited.entity.UserEntity;
 import com.grownited.repository.UserRepository;
-
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
 
-    @Autowired
-    UserRepository userRepository;
+	@Autowired
+	UserRepository userRepository;
 
-    // Show Users
-    @GetMapping("/users")
-    public String users(Model model,
-                        HttpSession session) {
+	@GetMapping("/usersList")
+	public String usersList(Model model) {
+		List<UserEntity> usersList = userRepository.findAll();
+		model.addAttribute("usersList", usersList);
+		return "User/UsersList";
+	}
 
-        
+	@GetMapping("/viewUser")
+	public String viewUser(Integer userId, Model model) {
+		Optional<UserEntity> opUser = userRepository.findById(userId);
+		if (opUser.isEmpty()) {
+			return "";
+		} else {
+			UserEntity userEntity = opUser.get();
+			model.addAttribute("user", userEntity);
+			return "User/ViewUser";
+		}
 
-        model.addAttribute("users",
-                userRepository.findAll());
+	}
 
-        return "Users";
-    }
+	@GetMapping("/deleteUser")
+	public String deleteUser(Integer userId) {
+		userRepository.deleteById(userId);
+		return "redirect:/usersList";
+	}
+	
+	@GetMapping("/newUser")
+	public String newUser() {
+		return "User/NewUser";
+	}
+
+	@PostMapping("/createUser")
+	public String createUser(UserEntity userEntity) {
+		userRepository.save(userEntity);
+		return "redirect:/userList";
+	}
 }

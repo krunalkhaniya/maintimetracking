@@ -1,39 +1,39 @@
 package com.grownited.entity;
 
-import jakarta.persistence.Column;
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "task")
+@Table(name = "tasks")
 public class TaskEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer taskId;
+	private enum Priority {
+		HIGH, MEDIUM, LOW
+	}
 
-    // FK → Module
-    private Integer moduleId;
+	private enum Status {
+		PENDING, IN_PROGRESS, COMPLETED
+	}
 
-    // FK → Project
-    private Integer projectId;
-
-    // FK → Status
-    private Integer status;
-
-    private Integer estimatedHours;
-
-    private Integer totalUtilizedHours;
-
-    private String docURL;
-
-    @Column(length = 500)
-    private String description;
-
-    private String title;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer taskId;
+	private String taskName;
+	private String description;
+	@Enumerated(EnumType.STRING)
+	private Priority priority; // priorities : High / Medium / Low
+	private LocalDate deadline;
+	@Enumerated(EnumType.STRING)
+	private Status status; // status : Pending / In Progress / Completed
+	private Integer moduleId; // FK
+	private Integer assignedTo; // FK
 
 	public Integer getTaskId() {
 		return taskId;
@@ -43,52 +43,12 @@ public class TaskEntity {
 		this.taskId = taskId;
 	}
 
-	public Integer getModuleId() {
-		return moduleId;
+	public String getTaskName() {
+		return taskName;
 	}
 
-	public void setModuleId(Integer moduleId) {
-		this.moduleId = moduleId;
-	}
-
-	public Integer getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(Integer projectId) {
-		this.projectId = projectId;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	public Integer getEstimatedHours() {
-		return estimatedHours;
-	}
-
-	public void setEstimatedHours(Integer estimatedHours) {
-		this.estimatedHours = estimatedHours;
-	}
-
-	public Integer getTotalUtilizedHours() {
-		return totalUtilizedHours;
-	}
-
-	public void setTotalUtilizedHours(Integer totalUtilizedHours) {
-		this.totalUtilizedHours = totalUtilizedHours;
-	}
-
-	public String getDocURL() {
-		return docURL;
-	}
-
-	public void setDocURL(String docURL) {
-		this.docURL = docURL;
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
 	}
 
 	public String getDescription() {
@@ -99,13 +59,44 @@ public class TaskEntity {
 		this.description = description;
 	}
 
-	public String getTitle() {
-		return title;
+	public Priority getPriority() {
+		return priority;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setPriority(Priority priority) {
+		this.priority = priority;
 	}
 
-    // Getters and Setters
+	public LocalDate getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(LocalDate deadline) {
+		this.deadline = deadline;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Integer getModuleId() {
+		return moduleId;
+	}
+
+	public void setModuleId(Integer moduleId) {
+		this.moduleId = moduleId;
+	}
+
+	public Integer getAssignedTo() {
+		return assignedTo;
+	}
+
+	public void setAssignedTo(Integer assignedTo) {
+		this.assignedTo = assignedTo;
+	}
+
 }
